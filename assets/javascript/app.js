@@ -37,7 +37,7 @@ var turn = 1;
 //  Firebase Database 
 //
 */
-// Get a reference to the database service
+// Get a reference to the databaseservice
 var database = firebase.database();
 
     // Creates an array that lists out all of the options (Rock, Paper, or Scissors).

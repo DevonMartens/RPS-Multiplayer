@@ -1,0 +1,9 @@
+button {
+    margin: 20px;
+}
+
+#player-1-field {
+    background: violet;
+    margin: 20px;
+    border: red;
+}

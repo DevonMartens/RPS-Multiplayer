@@ -4,39 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="/__/firebase/7.1.0/firebase-app.js"></script>
+
+     <!-- Link to the jQuery Library -->
+     <script src="https://code.jquery.com/jquery-2.2.3.js"></script>
+     <!-- Bootswatch CDN link -->
+     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css" rel="stylesheet">
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="/__/firebase/7.1.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-analytics.js"></script>
 
-<!-- Initialize Firebase -->
-<script src="/__/firebase/init.js"></script>
+    <!-- Personal stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDpxt17v1g2c6woFd8w_FIgxwYf5PgXVyM",
+    authDomain: "rps-multiplayer-8d7f3.firebaseapp.com",
+    databaseURL: "https://rps-multiplayer-8d7f3.firebaseio.com",
+    projectId: "rps-multiplayer-8d7f3",
+    storageBucket: "rps-multiplayer-8d7f3.appspot.com",
+    messagingSenderId: "1048269906499",
+    appId: "1:1048269906499:web:287d5cbafcc8d65ab66af6",
+    measurementId: "G-JGNCEWLMH0"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
     <title>RPS-Multiplayer</title>
 </head>
-<body>
-    <body>
-
-        <div>
-          <p id="directions-text">Press r, p or s to start playing!</p>
-          <p id="userchoice-text"></p>
-          <p id="computerchoice-text"></p>
-          <p id="wins-text"></p>
-          <p id="losses-text"></p>
-          <p id="ties-text"></p>
-        </div>
-      
-        <script type="text/javascript">
+<body class="center-block">
+        <header class="center-block">
+            <h1 class="text-center">Rock Paper Scissors</h1>
+            <h2 class="alert alert-danger">Error: Two players are already playing. Please come back later.</h2>
+        </header>
+        <section class="row">
+            <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+                <form class="user-form">
+                    <div class="input-group">
+                        <label for="username" class="sr-only">Your name</label>
+                        <input id="username" placeholder="Name" class="form-control" type="text">
+                    </div>
+                    <span class="input-group-btn"><button class="btn btn-info" type="submit" id="submit-name">Start</button></span>
+                </form>
+                <p class="hello"></p>
+            </div>
+        </section>
+        <main>
+            <div class="row game-row">
+                <div class="col-xs-12 col-sm-4 box box-1">
+                    <p class="name name-2"></p>
+                    <div class="card" style="width: 18rem;">
+                            <div class="card-header">Player One </div>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Rock</li>
+                              <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Paper</li>
+                              <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Scissors</li>
+                            </ul>
+                          </div>
+                        <p class="choice choice-1"></p>
+                   
+                    <p class="win-loss win-loss-1"></p>
+                </div>
+                <div class="col-xs-12 col-sm-4 box dynamic-box box-result">
+                    <p class="turn"></p>
+                    <p class="winner"></p>
+                </div>
+                <div class="col-xs-12 col-sm-4 box box-2">
+                    <p class="name name-2"></p>
+                    <div class="card" style="width: 18rem;">
+                            <div class="card-header">Player two </div>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Rock</li>
+                              <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Paper</li>
+                              <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Scissors</li>
+                            </ul>
+                          </div>
+                        <p class="choice choice-2"></p>
+                    </div>
+                    <p class="win-loss win-loss-2"></p>
+                </div>
+            </div>
+            <div class="row chat-row">
+                <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+                    <div class="box box-chat">
+                        <div class="messages"></div>
+                    </div>
+                    <form class="chat-form">
+                        <div class="input-group">
+                            <label for="message" class="sr-only">Message:</label>
+                            <input id="message" placeholder="Type a message..." class="form-control" type="text">
+                        </div>
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="submit" id="submit-chat">Send</button>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </main>
 </body>
 </html>
 
 
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
-    }
-  }
-}
