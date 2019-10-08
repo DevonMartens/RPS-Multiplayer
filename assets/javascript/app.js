@@ -2,7 +2,7 @@
 
       //set up firebase
       var firebaseConfig = {
-        apiKey: 
+        apiKey: "AIzaSyDpxt17v1g2c6woFd8w_FIgxwYf5PgXVyM",
         authDomain: "rps-multiplayer-8d7f3.firebaseapp.com",
         databaseURL: "https://rps-multiplayer-8d7f3.firebaseio.com",
         projectId: "rps-multiplayer-8d7f3",
@@ -11,8 +11,7 @@
         appId: "1:1048269906499:web:287d5cbafcc8d65ab66af6",
         measurementId: "G-JGNCEWLMH0"
       };
-
-      var app = firebase.initializeApp(config);
+      var app = firebase.initializeApp(firebaseConfig);
   
     
       var database = firebase.database();
