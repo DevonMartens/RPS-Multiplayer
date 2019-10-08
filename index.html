@@ -22,27 +22,30 @@
 
 <script>
   // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDpxt17v1g2c6woFd8w_FIgxwYf5PgXVyM",
-    authDomain: "rps-multiplayer-8d7f3.firebaseapp.com",
-    databaseURL: "https://rps-multiplayer-8d7f3.firebaseio.com",
-    projectId: "rps-multiplayer-8d7f3",
-    storageBucket: "rps-multiplayer-8d7f3.appspot.com",
-    messagingSenderId: "1048269906499",
-    appId: "1:1048269906499:web:287d5cbafcc8d65ab66af6",
-    measurementId: "G-JGNCEWLMH0"
-  };
+ 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 </script>
     <title>RPS-Multiplayer</title>
 </head>
-<body class="center-block">
-        <header class="center-block">
+<!--
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Rock Paper Scissors</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#"> <img src="assets/images/Rock_Paper_Scissors4xeDetail-600x450.png" id="logo" alt="fighters"> <span class="sr-only">(current)</span></a>
+          </div>
+        </div>
+      </nav> -->   
+  <!-- End nav bar-->    
+<body class="center-block" id="background">
             <h1 class="text-center">Rock Paper Scissors</h1>
             <h2 class="alert alert-danger">Error: Two players are already playing. Please come back later.</h2>
-        </header>
+     
         <section class="row">
             <div class="col-xs-12 col-sm-4 col-sm-offset-4">
                 <form class="user-form">
@@ -55,11 +58,11 @@
                 <p class="hello"></p>
             </div>
         </section>
-        <main>
+        <main>  
             <div class="row game-row">
-                <div class="col-xs-12 col-sm-4 box box-1">
+                <div class="col-xs-12 col-sm-6 col-md-6 box box-1">
                     <p class="name name-2"></p>
-                    <div class="card" style="width: 18rem;">
+                    <div class="card text-white bg-primary" style="width: 18rem;">
                             <div class="card-header">Player One </div>
                             <ul class="list-group list-group-flush">
                               <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Rock</li>
@@ -71,14 +74,11 @@
                    
                     <p class="win-loss win-loss-1"></p>
                 </div>
-                <div class="col-xs-12 col-sm-4 box dynamic-box box-result">
-                    <p class="turn"></p>
-                    <p class="winner"></p>
-                </div>
-                <div class="col-xs-12 col-sm-4 box box-2">
+              
+                <div class="col-xs-12 col-sm-6 col-md-6  box box-2">
                     <p class="name name-2"></p>
-                    <div class="card" style="width: 18rem;">
-                            <div class="card-header">Player two </div>
+                    <div class="card text-white bg-primary" style="width: 18rem;">
+                            <div class="card-header">Player two</div>
                             <ul class="list-group list-group-flush">
                               <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Rock</li>
                               <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Paper</li>
@@ -88,6 +88,12 @@
                         <p class="choice choice-2"></p>
                     </div>
                     <p class="win-loss win-loss-2"></p>
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-xs-12 col-sm-4 box dynamic-box box-result">
+                    <p class="turn"></p>
+                    <p class="winner"></p>
                 </div>
             </div>
             <div class="row chat-row">
@@ -101,7 +107,7 @@
                             <input id="message" placeholder="Type a message..." class="form-control" type="text">
                         </div>
                         <span class="input-group-btn">
-                            <button class="btn btn-success" type="submit" id="submit-chat">Send</button>
+                            <button class="btn btn-info" type="submit" id="submit-chat">Send</button>
                         </span>
                     </form>
                 </div>
