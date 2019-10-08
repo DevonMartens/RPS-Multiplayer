@@ -44,8 +44,9 @@
   <!-- End nav bar-->    
 <body class="center-block" id="background">
             <h1 class="text-center">Rock Paper Scissors</h1>
-            <h2 class="alert alert-danger">Error: Two players are already playing. Please come back later.</h2>
-     
+            <h2 class="alert alert-danger text-center">Error Game is Full </h2>
+            <div class="jumbotron jumbotron-fluid">
+                    <div class="container">
         <section class="row">
             <div class="col-xs-12 col-sm-4 col-sm-offset-4">
                 <form class="user-form">
@@ -53,12 +54,13 @@
                         <label for="username" class="sr-only">Your name</label>
                         <input id="username" placeholder="Name" class="form-control" type="text">
                     </div>
-                    <span class="input-group-btn"><button class="btn btn-info" type="submit" id="submit-name">Start</button></span>
+                    <span class="input-group-btn"><button class="btn btn-info" type="submit" id="add-name">Start</button></span>
                 </form>
                 <p class="hello"></p>
             </div>
         </section>
         <main>  
+               
             <div class="row game-row">
                 <div class="col-xs-12 col-sm-6 col-md-6 box box-1">
                     <p class="name name-2"></p>
@@ -72,7 +74,7 @@
                           </div>
                         <p class="choice choice-1"></p>
                    
-                    <p class="win-loss win-loss-1"></p>
+                    <p class="winCount player1Win"></p>
                 </div>
               
                 <div class="col-xs-12 col-sm-6 col-md-6  box box-2">
@@ -87,7 +89,7 @@
                           </div>
                         <p class="choice choice-2"></p>
                     </div>
-                    <p class="win-loss win-loss-2"></p>
+                    <p class="winCount player2Win"> </p>
                 </div>
             </div>
             <div class="row">
@@ -112,7 +114,11 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
         </main>
+        <script src="assets/javascript/app.js"></script>
+        <footer></footer>
 </body>
 </html>
 

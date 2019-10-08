@@ -20,7 +20,7 @@
       var connections = database.ref('connections');
   
       // player objects
-      var con;
+      var add;
       var player = {
           number: '0',
           name: '',
@@ -38,15 +38,14 @@
           turns: 0,
           choice: ''
       };
-      
+
       var waiting = false;
   
-      // jQuery selectors used in multiple places.
+      // ids
       var messages = $('.messages');
       var username = $('#username');
   
-      // Initial connection to Firebase/presence handling.
-      // This is 'once' and not 'on'.
+  
       connections.once('value', function (snapshot) {
           if (Object.keys(snapshot.val()).indexOf('1') === -1) {
               player.number = '1';
@@ -56,14 +55,14 @@
               opponent.number = '1';
           }
   
-          // If you got a player number, you're 1 or 2.
+          // accept player
           if (player.number !== '0') {
-              // Make a connection to Firebase and send your info.
-              con = connections.child(player.number);
-              con.set(player);
+              // connect to firebase to send info
+              add = connections.child(player.number);
+              add.set(player);
   
               // When I disconnect, remove this device.
-              con.onDisconnect().remove();
+              add.onDisconnect().remove();
   
               // If 1 and 2 were taken, your number is still 0.
           } else {
@@ -78,32 +77,31 @@
   
       // Ongoing event listening.
       connections.on('value', function (snapshot) {
-          // If the player is connected,
-          if (con) {
-              // And an opponent is connected,
+          // player is connected,
+          if (add) {
+              // opponent is connected
               if (Object.keys(snapshot.val()).indexOf(opponent.number) !== -1) {
-                  // Gather the latest info about your opponent and also yourself.
+                  //info
                   opponent = snapshot.val()[opponent.number];
                   player = snapshot.val()[player.number];
-                  // If we have a name for our opponent,
+                  // name of oppenent info
                   if (opponent.name.length > 0) {
-                      // Show the opponent. This also updates the opponents info over time.
-                      DOMFunctions.showOpponentInfo();
+                      DOMFunctions.opponentInfoDisplay();
                       // Once both players have a name,
                       if (player.name.length > 0) {
-                          // Check each time whether the players have made selections.
-                          var choice1 = snapshot.val()['1'].choice;
-                          var choice2 = snapshot.val()['2'].choice;
+                          // Data choice selection
+                          var seclection1 = snapshot.val()['1'].choice;
+                          var seclection2 = snapshot.val()['2'].choice;
                           var turns1 = snapshot.val()['1'].turns;
   
-                          // If both have picked, run getWinner on those choices.
-                          if (choice1.length > 0 && choice2.length > 0) {
-                              getWinner(choice1, choice2);
+                          // If both have picked, run playerWin 
+                          if (seclection1.length > 0 && seclection2.length > 0) {
+                              playerWin(seclection1, seclection2);
                               // If player 1 hasn't chosen yet, show them their options.
-                          } else if (choice1.length === 0 && turns1 === 0) {
+                          } else if (seclection1.length === 0 && turns1 === 0) {
                               DOMFunctions.showMoveOptions('1');
                               // Otherwise player 2 must be the one who hasn't make a choice yet.
-                          } else if (choice1.length > 0 && choice2.length === 0) {
+                          } else if (seclection1.length > 0 && seclection2.length === 0) {
                               DOMFunctions.showMoveOptions('2');
                           }
                       }
@@ -122,36 +120,34 @@
       $('#submit-name').on('click', function () {
           player.name = username.val();
           if (player.name.length > 0) {
-              con.update({
+              add.update({
                   name: player.name
               });
-              DOMFunctions.showSelfJoin();
+              DOMFunctions.joinGame();
           }
   
           return false;
       });
   
-      // Functions for changing HTML elements.
+      // change html
       var DOMFunctions = {
-          showSelfJoin: function () {
+          joinGame: function () {
               username.val('');
               $('.user-form').hide();
-              $('.waiting-' + player.number).hide();
               $('.name-' + player.number).text(player.name);
-              $('.win-loss-' + player.number).text('Wins: ' + player.wins + ' | Losses: ' + player.losses);
+              $('.winCount' + player.number).text('Wins: ' + player.wins + ' | Losses: ' + player.losses);
               $('.hello').text('Hello ' + player.name + '! You are player ' + player.number + '.').show();
               $('.turn').show();
               $('.chat-row').show();
               $('.moves-' + opponent.number).remove();
               this.updateScroll();
           },
-          showOpponentInfo: function () {
-              $('.waiting-' + opponent.number).hide();
+          opponentInfoDisplay: function () {
               $('.name-' + opponent.number).text(opponent.name);
-              $('.win-loss-' + opponent.number).text('Wins: ' + opponent.wins + ' | Losses: ' + opponent.losses);
+              $('.winCount' + opponent.number).text('Wins: ' + opponent.wins + ' | Losses: ' + opponent.losses);
           },
           updatePlayerStats: function () {
-              $('.win-loss-' + player.number).text('Wins: ' + player.wins + ' | Losses: ' + player.losses);
+              $('.winCount' + player.number).text('Wins: ' + player.wins + ' | Losses: ' + player.losses);
           },
           updateScroll: function () {
               messages[0].scrollTop = messages[0].scrollHeight;
@@ -172,7 +168,7 @@
               }
               DOMFunctions.updateScroll();
           },
-          showGameResult: function (message) {
+          displayResult: function (message) {
               this.updatePlayerStats();
               $('.choice-' + opponent.number).text(opponent.choiceText).show();
               $('.turn').hide();
@@ -223,9 +219,9 @@
           }
       });
   
-      // Win-Loss-Draw logic.
-      var getWinner = function (move1, move2) {
-          if (move1 === move2) {recordWin();}
+      // win loose login
+      var playerWin = function (move1, move2) {
+          if (move1 === move2) {addWin();}
           if (move1 === 'r' && move2 === 's') {recordWin('1', '2');}
           if (move1 === 'r' && move2 === 'p') {recordWin('2', '1');}
           if (move1 === 'p' && move2 === 'r') {recordWin('1', '2');}
@@ -234,15 +230,15 @@
           if (move1 === 's' && move2 === 'r') {recordWin('2', '1');}
       };
   
-      var recordWin = function (winner, loser) {
+      var addWin = function (winner, loser) {
           player.turns++;
           connections.child(player.number).update({
               choice: '',
               turns: player.turns
           });
-          // If there was a winner,
+          // if it is not a draw
           if (winner) {
-              // Then update your own win/loss count.
+              // add to winner count
               if (winner === player.number) {
                   player.wins++;
                   connections.child(winner).update({
@@ -255,10 +251,10 @@
                   });
               }
               // Then show the win.
-              DOMFunctions.showGameResult('Player ' + winner + ' wins!');
+              DOMFunctions.displayResult('Player ' + winner + ' wins!');
           } else {
               // Else, show the draw.
-              DOMFunctions.showGameResult('Draw.');
+              DOMFunctions.displayResult('Draw.');
           }
       }
   });

@@ -30,3 +30,7 @@ width: 220px;
     color: #ffffff;
       border-top: 10px solid #343a40;
     }
+
+.jumbotron {
+    background: none;
+}
