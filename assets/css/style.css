@@ -2,23 +2,18 @@ button {
     margin: 20px;
 }
 
-#player-1-field {
-    background: violet;
-    margin: 20px;
-    border: red;
-}
 #logo {
     height: 165px;
 width: 220px;
 }
 
-#background {
+body {
     background-image: url(https://i.imgur.com/P82aZzM.png);
     background-repeat: repeat;
 
 }
 
-#footer {
+footer {
     padding-top: 80px;
     position: fixed;
     left: 0px;
@@ -33,4 +28,9 @@ width: 220px;
 
 .jumbotron {
     background: none;
+
+}
+
+.chat-form {
+    align-items: center;
 }

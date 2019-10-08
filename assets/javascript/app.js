@@ -2,7 +2,7 @@
 
       //set up firebase
       var firebaseConfig = {
-        apiKey: "AIzaSyDpxt17v1g2c6woFd8w_FIgxwYf5PgXVyM",
+        apiKey: 
         authDomain: "rps-multiplayer-8d7f3.firebaseapp.com",
         databaseURL: "https://rps-multiplayer-8d7f3.firebaseio.com",
         projectId: "rps-multiplayer-8d7f3",
@@ -138,7 +138,7 @@
               $('.winCount' + player.number).text('Wins: ' + player.wins + ' | Losses: ' + player.losses);
               $('.hello').text('Hello ' + player.name + '! You are player ' + player.number + '.').show();
               $('.turn').show();
-              $('.chat-row').show();
+              $('.chat-area').show();
               $('.moves-' + opponent.number).remove();
               this.updateScroll();
           },
