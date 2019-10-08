@@ -18,6 +18,10 @@
 
     <!-- Personal stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Chat CSS stylesheets -->
+<link href="css/addons-pro/chat.css" rel="stylesheet">
+<!-- Chat CSS - minified-->
+<link href="css/addons-pro/chat.min.css" rel="stylesheet">
 
 
 <script>
@@ -61,8 +65,8 @@
 
                            <!-- row 1 name input --> 
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4 d-flex">
+            <div class="col-md-4 col-sm-4 col-xs-0"></div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
                 <form class="user-form">
                     <div class="input-group">
                         <label for="username" class="sr-only">Your name</label>
@@ -71,7 +75,7 @@
                     <span class="input-group-btn"><button class="btn btn-info" type="submit" id="add-name">Start</button></span>
                 </form>
             </div> 
-            <div class="col-md-4"></div> 
+            <div class="col-md-4 col-sm-4 col-xs-0"></div> 
          </div>
         
                  <!-- game players --> 
@@ -80,7 +84,7 @@
                 <div class="col-md-6">
                          <!-- insert name -->
                     <p class="name name-1"></p>
-                    <div class="card text-white bg-primary " style="width: 18rem;">
+                    <div class="card text-white" style="width: 18rem;">
                             <div class="card-header">Player One </div>
                             <ul class="list-group list-group-flush">
                               <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Rock</li>
@@ -97,7 +101,7 @@
                 <div class="col-md-6">
                     <!-- insert name -->
                     <p class="name name-2"></p>
-                    <div class="card text-white bg-primary" style="width: 18rem;">
+                    <div class="card text-white" style="width: 18rem;">
                             <div class="card-header">Player two</div>
                             <ul class="list-group list-group-flush">
                               <li class="list-group-item move" data-choice="r" data-text="rock" role="button">Rock</li>
@@ -122,6 +126,7 @@
              <!-- chat -->
             <div class="row chat-area">
                 <div class="col-md-4"></div>
+                <div class="col-md-4">
                     <div class="box box-chat">
                         <div class="messages"></div>
                     </div>

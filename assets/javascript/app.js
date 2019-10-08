@@ -12,12 +12,11 @@
         measurementId: "G-JGNCEWLMH0"
       };
       var app = firebase.initializeApp(firebaseConfig);
-  
-    
+
       var database = firebase.database();
       var chats = database.ref('chat');
-      var connections = database.ref('connections');
-  
+       var connections = database.ref('connections');
+
       // player objects
       var add;
       var player = {
@@ -39,13 +38,15 @@
       };
 
       var waiting = false;
-  
-      // ids
+
+        // ids
       var messages = $('.messages');
       var username = $('#username');
-  
-  
-      connections.once('value', function (snapshot) {
+
+   
+   connections.once('value', function (snapshot) {
+              connections.set("connections");
+          console.log(snapshot.val());
           if (Object.keys(snapshot.val()).indexOf('1') === -1) {
               player.number = '1';
               opponent.number = '2';
@@ -53,16 +54,16 @@
               player.number = '2';
               opponent.number = '1';
           }
-  
+
           // accept player
           if (player.number !== '0') {
               // connect to firebase to send info
               add = connections.child(player.number);
               add.set(player);
-  
+
               // When I disconnect, remove this device.
               add.onDisconnect().remove();
-  
+
               // If 1 and 2 were taken, your number is still 0.
           } else {
               // Remove the name form and put the alert there.
@@ -72,10 +73,11 @@
               app.delete();
           }
       });
-  
-  
-      // Ongoing event listening.
-      connections.on('value', function (snapshot) {
+      database.ref().on('value', function (snapshot) {
+   console.log(snapshot.val())
+ });
+ // Ongoing event listening.
+connections.on('value', function (snapshot) {
           // player is connected,
           if (add) {
               // opponent is connected
@@ -92,7 +94,7 @@
                           var seclection1 = snapshot.val()['1'].choice;
                           var seclection2 = snapshot.val()['2'].choice;
                           var turns1 = snapshot.val()['1'].turns;
-  
+
                           // If both have picked, run playerWin 
                           if (seclection1.length > 0 && seclection2.length > 0) {
                               playerWin(seclection1, seclection2);
@@ -113,25 +115,26 @@
               }
           }
       });
-  
-  
+
       // On-click function for submitting a name.
-      $('#submit-name').on('click', function () {
+      $('#add-name').on('click', function (event) {
+          event.preventDefault();
           player.name = username.val();
+         console.log(player)
           if (player.name.length > 0) {
               add.update({
                   name: player.name
               });
               DOMFunctions.joinGame();
           }
-  
+
           return false;
       });
-  
+
       // change html
       var DOMFunctions = {
           joinGame: function () {
-              username.val('');
+          username.val('');
               $('.user-form').hide();
               $('.name-' + player.number).text(player.name);
               $('.winCount' + player.number).text('Wins: ' + player.wins + ' | Losses: ' + player.losses);
@@ -181,7 +184,7 @@
               }, 3000)
           }
       };
-  
+
       // On-click function for selecting a move.
       $('.move').on('click', function () {
           var choice = $(this).data('choice');
@@ -190,11 +193,11 @@
               choice: choice,
               choiceText: move
           });
-  
+
           $('.moves-' + player.number).hide();
           $('.choice-' + player.number).text(move).show();
       });
-  
+
       // On-click function for submitting a chat.
       $('#submit-chat').on('click', function () {
           var message = $('#message');
@@ -204,20 +207,20 @@
               sender: player.name
           };
           chats.push(chatObj);
-  
+
           // Clear message input.
           message.val('');
-  
+
           return false;
       });
-  
+
       // Database listening function for chats.
       chats.on('child_added', function (snapshot) {
           if (snapshot.val()) {
               DOMFunctions.showChats(snapshot);
           }
       });
-  
+
       // win loose login
       var playerWin = function (move1, move2) {
           if (move1 === move2) {addWin();}
@@ -228,7 +231,7 @@
           if (move1 === 's' && move2 === 'p') {recordWin('1', '2');}
           if (move1 === 's' && move2 === 'r') {recordWin('2', '1');}
       };
-  
+ 
       var addWin = function (winner, loser) {
           player.turns++;
           connections.child(player.number).update({
@@ -249,7 +252,7 @@
                       losses: player.losses
                   });
               }
-              // Then show the win.
+   
               DOMFunctions.displayResult('Player ' + winner + ' wins!');
           } else {
               // Else, show the draw.

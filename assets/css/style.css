@@ -14,7 +14,7 @@ body {
 }
 
 footer {
-    padding-top: 80px;
+    padding-top: 100px;
     position: fixed;
     left: 0px;
     bottom: 0px;
@@ -28,9 +28,21 @@ footer {
 
 .jumbotron {
     background: none;
-
+    width: 80%;
+    margin: auto;
 }
 
 .chat-form {
     align-items: center;
+}
+
+.card-header {
+    color: #ffffff;
+    font-size: 25px;
+    text-align: center;
+    background-color: #a2a76b;
+}
+
+.move {
+    text-align: center;
 }
