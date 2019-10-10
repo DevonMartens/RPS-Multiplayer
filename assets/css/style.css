@@ -46,3 +46,23 @@ footer {
 .move {
     text-align: center;
 }
+
+/*hide items*/
+.hello {
+    display: none;
+}
+.moves {
+    display: none;
+}
+.choice {
+    display: none;
+}
+.turn {
+    display: none;
+}
+.alert { display: none; }
+
+.chat-row {
+    display: none;
+    text-align: center;
+}

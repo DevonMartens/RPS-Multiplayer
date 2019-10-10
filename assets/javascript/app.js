@@ -43,10 +43,9 @@
       var messages = $('.messages');
       var username = $('#username');
 
-   
+   //ensuring only two players
    connections.once('value', function (snapshot) {
               connections.set("connections");
-          console.log(snapshot.val());
           if (Object.keys(snapshot.val()).indexOf('1') === -1) {
               player.number = '1';
               opponent.number = '2';
@@ -61,20 +60,19 @@
               add = connections.child(player.number);
               add.set(player);
 
-              // When I disconnect, remove this device.
+              // remove device of disconnected player
               add.onDisconnect().remove();
 
               // If 1 and 2 were taken, your number is still 0.
           } else {
-              // Remove the name form and put the alert there.
-              $('section').remove();
-              $('.alert').show();
+              // Remove the name and add the alert message
+              $('.alert').remove();
+              $('.nameBox').show();
               // And disconnect from Firebase.
               app.delete();
           }
       });
       database.ref().on('value', function (snapshot) {
-   console.log(snapshot.val())
  });
  // Ongoing event listening.
 connections.on('value', function (snapshot) {
@@ -95,13 +93,13 @@ connections.on('value', function (snapshot) {
                           var seclection2 = snapshot.val()['2'].choice;
                           var turns1 = snapshot.val()['1'].turns;
 
-                          // If both have picked, run playerWin 
+                          // run playerWin 
                           if (seclection1.length > 0 && seclection2.length > 0) {
                               playerWin(seclection1, seclection2);
-                              // If player 1 hasn't chosen yet, show them their options.
+                              // If player 1 hasn't chosen yet, show rock paper scissors
                           } else if (seclection1.length === 0 && turns1 === 0) {
                               DOMFunctions.showMoveOptions('1');
-                              // Otherwise player 2 must be the one who hasn't make a choice yet.
+                              // If player 1 hasn't chosen yet, show rock paper scissors
                           } else if (seclection1.length > 0 && seclection2.length === 0) {
                               DOMFunctions.showMoveOptions('2');
                           }
@@ -111,16 +109,16 @@ connections.on('value', function (snapshot) {
                   $('.turn').text('Opponent left. Waiting for new opponent.');
                   $('.waiting-' + opponent.number).show();
                   $('.name-' + opponent.number).empty();
-                  $('.win-loss-' + opponent.number).empty();
+                  $('.winCount-' + opponent.number).empty();
               }
           }
       });
 
-      // On-click function for submitting a name.
+      // On-click function for adding a player
       $('#add-name').on('click', function (event) {
           event.preventDefault();
           player.name = username.val();
-         console.log(player)
+         //console.log(player)
           if (player.name.length > 0) {
               add.update({
                   name: player.name
@@ -142,7 +140,7 @@ connections.on('value', function (snapshot) {
               $('.turn').show();
               $('.chat-area').show();
               $('.moves-' + opponent.number).remove();
-              this.updateScroll();
+              this.messageplayer();
           },
           opponentInfoDisplay: function () {
               $('.name-' + opponent.number).text(opponent.name);
@@ -151,7 +149,8 @@ connections.on('value', function (snapshot) {
           updatePlayerStats: function () {
               $('.winCount' + player.number).text('Wins: ' + player.wins + ' | Losses: ' + player.losses);
           },
-          updateScroll: function () {
+          //messaging function
+          messageplayer: function () {
               messages[0].scrollTop = messages[0].scrollHeight;
           },
           showMoveOptions: function (currentPlayer) {
@@ -168,7 +167,7 @@ connections.on('value', function (snapshot) {
                   messageDiv.html('<span class="sender">' + chatMessage.sender + '</span>: ' + chatMessage.message);
                   messages.append(messageDiv);
               }
-              DOMFunctions.updateScroll();
+              DOMFunctions.messageplayer();
           },
           displayResult: function (message) {
               this.updatePlayerStats();
@@ -189,7 +188,7 @@ connections.on('value', function (snapshot) {
       $('.move').on('click', function () {
           var choice = $(this).data('choice');
           var move = $(this).data('text');
-          con.update({
+          add.update({
               choice: choice,
               choiceText: move
           });
