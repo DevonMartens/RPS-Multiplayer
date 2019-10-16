@@ -47,8 +47,13 @@ footer {
     text-align: center;
 }
 
+/*label*/
+.lable {
+color: white;
+background: black;
+}
 /*hide items*/
-.hello {
+.welcome {
     display: none;
 }
 .moves {

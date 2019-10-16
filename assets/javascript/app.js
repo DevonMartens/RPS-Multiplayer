@@ -12,9 +12,13 @@
         measurementId: "G-JGNCEWLMH0"
       };
       var app = firebase.initializeApp(firebaseConfig);
-
+//database
       var database = firebase.database();
+      //anaylitics 
+      firebase.analytics();
+//chat
       var chats = database.ref('chat');
+//connect
        var connections = database.ref('connections');
 
       // player objects
@@ -105,6 +109,7 @@ connections.on('value', function (snapshot) {
                           }
                       }
                   }
+                  //opponent leaves
               } else if (opponent.name.length > 0 && Object.keys(snapshot.val()).indexOf(opponent.number) === -1) {
                   $('.turn').text('Opponent left. Waiting for new opponent.');
                   $('.waiting-' + opponent.number).show();
@@ -136,7 +141,7 @@ connections.on('value', function (snapshot) {
               $('.user-form').hide();
               $('.name-' + player.number).text(player.name);
               $('.winCount' + player.number).text('Wins: ' + player.wins + ' | Losses: ' + player.losses);
-              $('.hello').text('Hello ' + player.name + '! You are player ' + player.number + '.').show();
+              $('.welcome').text('welcome ' + player.name + '! You are player ' + player.number + '.').show();
               $('.turn').show();
               $('.chat-area').show();
               $('.moves-' + opponent.number).remove();
@@ -169,6 +174,7 @@ connections.on('value', function (snapshot) {
               }
               DOMFunctions.messageplayer();
           },
+          //display result
           displayResult: function (message) {
               this.updatePlayerStats();
               $('.choice-' + opponent.number).text(opponent.choiceText).show();
@@ -198,7 +204,7 @@ connections.on('value', function (snapshot) {
       });
 
       // On-click function for submitting a chat.
-      $('#submit-chat').on('click', function () {
+      $('#submitChat').on('click', function () {
           var message = $('#message');
           var chatObj = {
               message: message.val(),
@@ -213,14 +219,14 @@ connections.on('value', function (snapshot) {
           return false;
       });
 
-      // Database listening function for chats.
+      // Database listening for messages
       chats.on('child_added', function (snapshot) {
           if (snapshot.val()) {
               DOMFunctions.showChats(snapshot);
           }
       });
 
-      // win loose login
+      // rom RPS game
       var playerWin = function (move1, move2) {
           if (move1 === move2) {addWin();}
           if (move1 === 'r' && move2 === 's') {recordWin('1', '2');}
@@ -230,14 +236,14 @@ connections.on('value', function (snapshot) {
           if (move1 === 's' && move2 === 'p') {recordWin('1', '2');}
           if (move1 === 's' && move2 === 'r') {recordWin('2', '1');}
       };
- 
+ //record win
       var addWin = function (winner, loser) {
           player.turns++;
           connections.child(player.number).update({
               choice: '',
               turns: player.turns
           });
-          // if it is not a draw
+          // if theres a winner
           if (winner) {
               // add to winner count
               if (winner === player.number) {
@@ -254,8 +260,12 @@ connections.on('value', function (snapshot) {
    
               DOMFunctions.displayResult('Player ' + winner + ' wins!');
           } else {
-              // Else, show the draw.
+              // show a draw
               DOMFunctions.displayResult('Draw.');
+          }
+          //callback data
+          function gotData(data) {
+            console.log(data);
           }
       }
   });
