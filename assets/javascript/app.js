@@ -20,6 +20,8 @@
       var chats = database.ref('chat');
 //connect
        var connections = database.ref('connections');
+//second player to mske this work
+var playersref = database.ref('playersRef');
 
       // player objects
       var add;
